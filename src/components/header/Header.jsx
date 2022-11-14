@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useTelegram } from "../../hooks/useTelegram";
 import { Button } from "../button/Button";
 
