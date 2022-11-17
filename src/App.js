@@ -7,7 +7,7 @@ import { Form } from './components/form/Form';
 import { useTelegram } from './hooks/useTelegram';
 
 function App() {
-  const {onToggleButton, tg} = useTelegram();
+  const {tg} = useTelegram();
   useEffect(() => {
     tg.ready()
   }, [tg])
