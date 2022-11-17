@@ -26,16 +26,18 @@ export const Form = () => {
     const data = {
       country,
       street,
-      subject
+      subject,
     };
-    tg?.sendData(JSON.stringify(data))
-  }, [country, street, subject, tg])
+    tg?.sendData(JSON.stringify(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   useEffect(() => {
     tg.onEvent("mainButtonClicked", onSendData);
     return () => {
-      tg.offEvent('mainButtonClicked', onSendData);
-    }
+      tg.offEvent("mainButtonClicked", onSendData);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   return (
