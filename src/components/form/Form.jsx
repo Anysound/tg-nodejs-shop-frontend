@@ -32,11 +32,11 @@ export const Form = () => {
   }, [country, street, subject, tg])
 
   useEffect(() => {
-    tg?.WebApp?.onEvent("mainButtonClicked", onSendData);
+    tg?.onEvent("mainButtonClicked", onSendData);
     return () => {
-      tg?.WebApp?.offEvent('mainButtonClicked', onSendData);
+      tg?.offEvent('mainButtonClicked', onSendData);
     }
-  }, [onSendData, tg.WebApp])
+  }, [onSendData, tg])
 
   return (
     <div className="form">
