@@ -34,9 +34,9 @@ export const Form = () => {
 
   useEffect(() => {
     tg.onEvent("mainButtonClicked", onSendData);
-    return () => {
-      tg.offEvent("mainButtonClicked", onSendData);
-    };
+    // return () => {
+    //   tg.offEvent("mainButtonClicked", onSendData);
+    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
