@@ -12,7 +12,8 @@ export const Form = () => {
     tg.MainButton.setParams({
       text: "Отправить данные",
     });
-  }, [tg.MainButton]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     if (!street || !country) {
@@ -20,7 +21,8 @@ export const Form = () => {
     } else {
       tg.MainButton.show();
     }
-  }, [country, street, tg.MainButton]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [country, street]);
 
   const onSendData = useCallback(() => {
     const data = {
