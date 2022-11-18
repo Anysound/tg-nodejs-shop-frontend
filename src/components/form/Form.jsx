@@ -2,11 +2,29 @@ import React, { useCallback, useEffect, useState } from "react";
 import "./Form.css";
 import { useTelegram } from "../../hooks/useTelegram";
 
-export const Form = () => {
+const Form = () => {
   const [country, setCountry] = useState("");
   const [street, setStreet] = useState("");
-  const [subject, setSubject] = useState("");
+  const [subject, setSubject] = useState("physical");
   const { tg } = useTelegram();
+
+  const onSendData = useCallback(() => {
+    const data = {
+      country,
+      street,
+      subject,
+    };
+    tg.sendData(JSON.stringify(data));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [country, street, subject]);
+
+  useEffect(() => {
+    tg.onEvent("mainButtonClicked", onSendData);
+    return () => {
+      tg.offEvent("mainButtonClicked", onSendData);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [onSendData]);
 
   useEffect(() => {
     tg.MainButton.setParams({
@@ -24,50 +42,41 @@ export const Form = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [country, street]);
 
-  const onSendData = useCallback(() => {
-    const data = {
-      country,
-      street,
-      subject,
-    };
-    tg?.sendData(JSON.stringify(data));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const onChangeCountry = (e) => {
+    setCountry(e.target.value);
+  };
 
-  useEffect(() => {
-    tg.onEvent("mainButtonClicked", onSendData);
-    // return () => {
-    //   tg.offEvent("mainButtonClicked", onSendData);
-    // };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  const onChangeStreet = (e) => {
+    setStreet(e.target.value);
+  };
+
+  const onChangeSubject = (e) => {
+    setSubject(e.target.value);
+  };
 
   return (
-    <div className="form">
+    <div className={"form"}>
+      <h3>Введите ваши данные</h3>
       <input
+        className={"input"}
         type="text"
-        className="input"
-        placeholder="страна"
+        placeholder={"Страна"}
         value={country}
-        onChange={(e) => setCountry(e.target.value)}
+        onChange={onChangeCountry}
       />
       <input
+        className={"input"}
         type="text"
-        className="input"
-        placeholder="улица"
+        placeholder={"Улица"}
         value={street}
-        onChange={(e) => setStreet(e.target.value)}
+        onChange={onChangeStreet}
       />
-      <select
-        name=""
-        id=""
-        className="select"
-        onChange={(e) => setSubject(e.target.value)}
-        value={subject}
-      >
-        <option value="legal">юр. лицо</option>
-        <option value="physical">физ. лицо</option>
+      <select value={subject} onChange={onChangeSubject} className={"select"}>
+        <option value={"physical"}>Физ. лицо</option>
+        <option value={"legal"}>Юр. лицо</option>
       </select>
     </div>
   );
 };
+
+export default Form;
