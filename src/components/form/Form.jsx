@@ -19,10 +19,10 @@ const Form = () => {
   }, [country, street, subject]);
 
   useEffect(() => {
-    tg.onEvent("mainButtonClicked", onSendData);
-    return () => {
-      tg.offEvent("mainButtonClicked", onSendData);
-    };
+    tg.MainButton.onClick(onSendData);
+    // return () => {
+    //   tg.offEvent("mainButtonClicked", onSendData);
+    // };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSendData]);
 
