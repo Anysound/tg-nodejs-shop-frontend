@@ -15,7 +15,7 @@ export const ProductList = () => {
       totalPrice: getTotalPrice(addedItems),
       queryId,
     };
-    fetch("http://localhost:3000/", {
+    fetch("http://192.168.0.2:3000/web-data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
