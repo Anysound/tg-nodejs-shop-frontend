@@ -8,14 +8,21 @@ import { useTelegram } from "../../hooks/useTelegram";
 export const ProductList = () => {
   const [addedItems, setAddedItems] = useState([]);
   const { tg, queryId } = useTelegram();
-
+  const send = () =>
+    fetch("http://192.168.0.2:3000/web-data", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({test: '32'}),
+    });
   const onSendData = useCallback(() => {
     const data = {
       products: addedItems,
       totalPrice: getTotalPrice(addedItems),
       queryId,
     };
-    fetch("http://192.168.0.2:3000/web-data", {
+    fetch("http://89.248.206.53:3000/web-data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -59,6 +66,7 @@ export const ProductList = () => {
         {products.map((i) => (
           <ProductItem product={i} onAdd={onAdd} className={"item"} />
         ))}
+        <button onClick={send} ></button>
       </div>
     </div>
   );
