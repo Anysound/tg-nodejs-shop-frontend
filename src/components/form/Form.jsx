@@ -21,9 +21,9 @@ const Form = () => {
   useEffect(() => {
     //tg.MainButton.onClick(onSendData);
     tg.onEvent("mainButtonClicked", onSendData);
-    // return () => {
-    //   tg.offEvent("mainButtonClicked", onSendData);
-    // };
+    return () => {
+      tg.offEvent("mainButtonClicked", onSendData);
+    };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSendData]);
 
