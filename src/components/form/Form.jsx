@@ -1,12 +1,10 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./Form.css";
-import { useTelegram } from "../../hooks/useTelegram";
 
 const Form = () => {
   const [country, setCountry] = useState("");
   const [street, setStreet] = useState("");
   const [subject, setSubject] = useState("physical");
-  const { tg } = useTelegram();
 
   const onSendData = useCallback(() => {
     const data = {
@@ -14,21 +12,21 @@ const Form = () => {
       street,
       subject,
     };
-    tg.sendData(JSON.stringify(data));
+    process.env.TG_API.sendData(JSON.stringify(data));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [country, street, subject]);
 
   useEffect(() => {
-    //tg.MainButton.onClick(onSendData);
-    tg.onEvent("mainButtonClicked", onSendData);
+    //process.env.TG_API.MainButton.onClick(onSendData);
+    process.env.TG_API.onEvent("mainButtonClicked", onSendData);
     return () => {
-      tg.offEvent("mainButtonClicked", onSendData);
+      process.env.TG_API.offEvent("mainButtonClicked", onSendData);
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [onSendData]);
 
   useEffect(() => {
-    tg.MainButton.setParams({
+    process.env.TG_API.MainButton.setParams({
       text: "Отправить данные",
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -36,9 +34,9 @@ const Form = () => {
 
   useEffect(() => {
     if (!street || !country) {
-      tg.MainButton.hide();
+      process.env.TG_API.MainButton.hide();
     } else {
-      tg.MainButton.show();
+      process.env.TG_API.MainButton.show();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [country, street]);

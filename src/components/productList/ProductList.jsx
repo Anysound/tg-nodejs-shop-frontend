@@ -7,15 +7,15 @@ import { useTelegram } from "../../hooks/useTelegram";
 
 export const ProductList = () => {
   const [addedItems, setAddedItems] = useState([]);
-  const { tg, queryId } = useTelegram();
+  const { queryId } = useTelegram();
   const send = () =>
-    fetch("http://192.168.0.2:3000/web-data", {
+    fetch("http://89.248.206.53:3000/web-data", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({test: '32'}),
-    });
+      body: JSON.stringify({ test: "32" }),
+    });   
   const onSendData = useCallback(() => {
     const data = {
       products: addedItems,
@@ -32,11 +32,11 @@ export const ProductList = () => {
   }, [addedItems, queryId]);
 
   useEffect(() => {
-    tg.onEvent("mainButtonClicked", onSendData);
+    process.env.TG_API.onEvent("mainButtonClicked", onSendData);
     return () => {
-      tg.offEvent("mainButtonClicked", onSendData);
+      process.env.TG_API.offEvent("mainButtonClicked", onSendData);
     };
-  }, [onSendData, tg]);
+  }, [onSendData, process.env.TG_API]);
 
   const onAdd = (product) => {
     const alreadyAdded = addedItems.find((item) => item.id === product.id);
@@ -51,10 +51,10 @@ export const ProductList = () => {
     setAddedItems(newItems);
 
     if (newItems.length === 0) {
-      tg.MainButton.hide();
+      process.env.TG_API.MainButton.hide();
     } else {
-      tg.MainButton.show();
-      tg.MainButton.setParams({
+      process.env.TG_API.MainButton.show();
+      process.env.TG_API.MainButton.setParams({
         text: `Купить ${getTotalPrice(newItems)}`,
       });
     }

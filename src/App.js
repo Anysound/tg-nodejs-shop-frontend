@@ -4,13 +4,12 @@ import './App.css';
 import { Header } from './components/header/Header';
 import { ProductList } from './components/productList/ProductList';
 import Form  from './components/form/Form';
-import { useTelegram } from './hooks/useTelegram';
 
 function App() {
-  const {tg} = useTelegram();
+
   useEffect(() => {
-    tg.ready()
-  }, [tg])
+    process.env.TG_API.ready();
+  }, [process.env.TG_API]);
 
   return (
     <div className="App">
